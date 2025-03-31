@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашняя страница</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+        }
+        #clock {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            transition: all 0.3s; /* Плавный переход */
+            opacity: 0.8;
+            z-index: 1;
+        }
+        .links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+        .links a {
+            text-decoration: none;
+            color: #ffffff;
+            background: #1f1f1f;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .links a:hover {
+            background: #333333;
+            border-color: #6200ea;
+            box-shadow: 0 0 8px #6200ea;
+            color: #954aff;
+        }
+        .search-container {
+            width: 100%;
+            max-width: 400px;
+            z-index: 1;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #333333;
+            outline: none;
+            background: #1f1f1f;
+            color: #ffffff;
+            transition: 0.3s;
+        }
+        .search-container input:focus {
+            border-color: #6200ea;
+            box-shadow: 0 0 8px #6200ea;
+        }
+        #quote {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            text-align: center;
+            max-width: 80%;
+            color: #b1b1b1;
+            background: rgb(24, 24, 24);
+            border-radius: 5px;
+            border-color: #6200ea;
+            padding: 3px;
+            z-index: 1;
+        }
+        #weather {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgb(34, 34, 34);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-family: Arial, sans-serif;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock">00:00:00</div>
+    <div class="search-container">
+        <form action="https://www.google.com/search" method="GET">
+            <input type="text" name="q" placeholder="Поиск в Google..." autofocus>
+        </form>
+    </div>
+    <div class="links">
+        <a href="https://google.com">Google</a>
+        <a href="https://youtube.com">YouTube</a>
+        <a href="https://github.com">GitHub</a>
+        <a href="https://translate.google.com">Переводчик</a>
+    </div>
+   
+    <div id="quote">Загрузка цитаты...</div>
+
+    <div id="weather">Загрузка погоды...</div>
+
+
+    <audio id="bg-music" src="music.mp3" autoplay loop></audio>
+
+<!-- Контейнер для частиц -->
+<div id="particles-js"></div>
+
+<!-- CSS для частиц -->
+<style>
+    #particles-js {
+        position: fixed; /* Зафиксировать на весь экран */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0; /* Опустить ниже всех элементов */
+        opacity: 0.5; /* Полупрозрачность (можно убрать) */
+    }
+</style>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@1/tsparticles.min.js"></script>
+<script>
+    tsParticles.load("particles-js", {
+        particles: {
+            number: { value: 150 },
+            size: { value: 1 },
+            move: {
+                enable: true, // Включить движение
+                speed: 0.3, // Скорость движения
+                direction: "none", // Направление (none — случайное)
+                random: false, // Обычное движение (не рандомное)
+                straight: false // Частицы могут менять направление
+            },
+            line_linked: {
+                enable: true, // Включить связи
+                distance: 150, // Дистанция соединения
+                color: "#ffffff", // Цвет линий
+                opacity: 0.4, // Прозрачность линий
+                width: 1 // Толщина линий
+            }
+        }
+    });
+</script>
+
+
+    
+
+    <script>
+        const audio = document.getElementById("bg-music");
+        audio.volume = 0.15; 
+
+        function updateClock() {
+        const now = new Date();
+        const localTime = now.toLocaleTimeString();
+
+        const clockElement = document.getElementById('clock');
+
+        // Анимация: сначала уменьшаем прозрачность, потом меняем текст, затем возвращаем
+        clockElement.style.opacity = '0.4';
+        setTimeout(() => {
+            clockElement.textContent = localTime;
+            clockElement.style.opacity = '0.8';
+        }, 50); // Немного задерживаем обновление
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+        async function loadQuote() {
+            try {
+                const response = await fetch('file.txt');
+                const text = await response.text();
+                const quotes = text.split('\n').filter(q => q.trim() !== '');
+                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                document.getElementById('quote').textContent = randomQuote;
+            } catch (error) {
+                document.getElementById('quote').textContent = error;   
+        }}
+        loadQuote();
+
+        async function fetchWeather() {
+        try {
+            const lat = 45.0428;
+            const lon = 41.9734;
+
+            const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`);
+            const weatherData = await weatherRes.json();
+            const temp = weatherData.current_weather.temperature;
+            const wind = weatherData.current_weather.windspeed;
+            document.getElementById("weather").innerHTML = ` Температура: ${temp}°C <br>  Ветер: ${wind} км/ч`;
+        } catch (error) {
+            document.getElementById("weather").innerText = "Ошибка загрузки погоды";
+        }
+    }
+    fetchWeather();
+
+    document.addEventListener("keydown", function(event) {
+        if (event.ctrlKey && event.key === "y") window.location.href = "https://ya.ru";
+        if (event.ctrlKey && event.key === "g") window.location.href = "https://github.com";
+    });
+
+
+    </script>
+</body>
+</html>
