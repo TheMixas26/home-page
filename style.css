@@ -1,0 +1,192 @@
+:root {
+    --primary-color: #6200ea;
+    --secondary-color: #954aff;
+    --bg-color: #121212;
+    --card-color: #1f1f1f;
+    --text-color: #ffffff;
+    --text-secondary: #b1b1b1;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    overflow: hidden;
+}
+
+#clock {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    transition: all 0.3s;
+    opacity: 0.9;
+    z-index: 1;
+    text-shadow: 0 0 10px rgba(149, 74, 255, 0.3);
+}
+
+.links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    z-index: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.links a {
+    text-decoration: none;
+    color: var(--text-color);
+    background: var(--card-color);
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+    font-size: 0.95rem;
+}
+
+.links a:hover {
+    background: #333333;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 12px var(--primary-color);
+    color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.search-container {
+    width: 100%;
+    max-width: 500px;
+    z-index: 1;
+    margin: 20px 0;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #333333;
+    outline: none;
+    background: var(--card-color);
+    color: var(--text-color);
+    transition: all 0.3s;
+}
+
+.search-container input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 12px var(--primary-color);
+}
+
+#quote {
+    font-size: 1.1rem;
+    margin-top: 40px;
+    text-align: center;
+    max-width: 80%;
+    color: var(--text-secondary);
+    background: rgba(24, 24, 24, 0.8);
+    border-radius: 8px;
+    padding: 12px 20px;
+    z-index: 1;
+    line-height: 1.5;
+    backdrop-filter: blur(5px);
+}
+
+#weather {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(34, 34, 34, 0.8);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: Arial, sans-serif;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+    border: 1px solid #333;
+}
+
+#weather-icon {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.greeting {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    opacity: 0.9;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #clock {
+        font-size: 2.5rem;
+    }
+    
+    .links {
+        gap: 10px;
+    }
+    
+    .links a {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+    
+    #quote {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+    
+    #weather {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+}
+#quote-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    max-width: 80%;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 12px 20px;
+}
+
+#quote {
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+#refresh-quote {
+    background: var(--card-color);
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+#refresh-quote:hover {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 8px var(--primary-color);
+}
+
+#refresh-quote:active {
+    transform: scale(0.95);
+}
