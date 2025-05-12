@@ -139,6 +139,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@1/tsparticles.min.js"></script>
 <script>
+    function calculateParticlesCount() {
+        const basePixels = 1920 * 1080;
+        const baseCount = 150;
+        const currentPixels = window.innerWidth * window.innerHeight;
+        let particleCount = Math.round((currentPixels / basePixels) * baseCount);
+        particleCount = Math.max(50, Math.min(particleCount, 300));
+        
+        return particleCount;
+    }
+    
+    let quantity = calculateParticlesCount()
+    
     tsParticles.load("particles-js", {
         particles: {
             number: { value: 150 },
