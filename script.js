@@ -209,25 +209,12 @@ function initParticles() {
             }
         }
 
-        function setupHotkeys() {
-            document.addEventListener("keydown", function(event) {
-                if (event.ctrlKey) {
-                    switch(event.key.toLowerCase()) {
-                        case 'y': window.open("https://ya.ru", "_blank"); break;
-                        case 'g': window.open("https://github.com", "_blank"); break;
-                        case 'm': window.open("https://mail.google.com", "_blank"); break;
-                        case 't': window.open("https://translate.google.com", "_blank"); break;
-                    }
-                }
-                
-                // // Пробел - пауза/воспроизведение музыки
-                // if (event.code === "Space") {
-                //     event.preventDefault();
-                //     const audio = document.getElementById("bg-music");
-                //     audio.paused ? audio.play() : audio.pause();
-                // }
-            });
-        }
+        document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.key === "y") window.location.href = "https://ya.ru";
+            if (event.ctrlKey && event.key === "g") window.location.href = "https://github.com";
+            if (event.ctrlKey && event.key === "m") window.location.href = "https://mail.google.com";
+        })
+        
         
         function handleResize() {
             initParticles();
@@ -241,17 +228,10 @@ function initParticles() {
             
             loadQuote();
             fetchWeather();
-            setupHotkeys();
             initParticles();
             
             const audio = document.getElementById("bg-music");
             audio.volume = 0.15;
-            
-            document.body.addEventListener('click', function() {
-                if (audio.paused) {
-                    audio.play().catch(e => console.log("Автовоспроизведение заблокировано:", e));
-                }
-            }, { once: true });
             
             window.addEventListener('resize', handleResize);
         });
