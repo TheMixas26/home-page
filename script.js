@@ -232,6 +232,7 @@ function initParticles() {
             
             const audio = document.getElementById("bg-music");
             audio.volume = 0.15;
+            audio.play();
             
             window.addEventListener('resize', handleResize);
         });
