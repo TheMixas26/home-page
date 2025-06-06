@@ -15,12 +15,15 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
     transition: all 0.3s ease-in-out;
     z-index: 1;
     overflow: hidden;
+    min-height: 100vh;
+    height: auto;
+    overflow-y: auto;
 }
+
 
 #clock {
     font-size: 4rem;
