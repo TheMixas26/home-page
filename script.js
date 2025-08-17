@@ -1,39 +1,128 @@
-function initParticles() {
-            const particleCount = Math.min(Math.max(Math.floor((window.innerWidth * window.innerHeight) / (1920 * 1080) * 150), 50), 300);
-            
-            tsParticles.load("particles-js", {
-                particles: {
-                    number: { value: particleCount },
-                    size: { value: 1.5 },
-                    move: {
-                        enable: true,
-                        speed: 0.5,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "bounce"
-                    },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#954aff",
-                        opacity: 0.4,
-                        width: 1
-                    },
-                    color: {
-                        value: "#ffffff"
-                    }
-                },
-                interactivity: {
-                    events: {
-                        onhover: {
-                            enable: true,
-                            mode: "grab"
-                        }
-                    }
-                }
-            });
+// document.addEventListener("DOMContentLoaded", () => {
+//     const countdownEl = document.getElementById("countdown");
+//     const deadlineInput = document.getElementById("new-deadline");
+//     const setBtn = document.getElementById("set-deadline");
+//     const resetBtn = document.getElementById("reset-deadline");
+
+//     let defaultDeadline = new Date("2025-12-31T23:59:59").getTime();
+//     let deadline = defaultDeadline;
+
+//     function updateCountdown() {
+//         const now = new Date().getTime();
+//         const distance = deadline - now;
+
+//         if (distance < 0) {
+//             countdownEl.innerHTML = "Срок истёк!";
+//             return;
+//         }
+
+//         const days = Math.floor(distance / (1000*60*60*24));
+//         const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+//         const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+//         const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+//         countdownEl.innerHTML = `${days}д ${hours}ч ${minutes}м ${seconds}с`;
+//     }
+
+//     const countdownInterval = setInterval(updateCountdown, 1000);
+//     updateCountdown();
+
+//     setBtn.addEventListener("click", () => {
+//         if (deadlineInput.value) {
+//             deadline = new Date(deadlineInput.value).getTime();
+//             updateCountdown();
+//         }
+//     });
+
+//     resetBtn.addEventListener("click", () => {
+//         deadline = defaultDeadline;
+//         updateCountdown();
+//     });
+// });
+function renderCalendar() {
+    const calendar = document.getElementById('calendar');
+    if (!calendar) return;
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const today = now.getDate();
+    const monthNames = [
+        'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+    ];
+    let html = `<div style="font-weight:bold; margin-bottom:4px;">${monthNames[month]} ${year}</div>`;
+    html += '<table><thead><tr>';
+    const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+    for (let d of days) html += `<th>${d}</th>`;
+    html += '</tr></thead><tbody><tr>';
+    let firstDay = new Date(year, month, 1).getDay();
+    firstDay = firstDay === 0 ? 7 : firstDay;
+    for (let i = 1; i < firstDay; i++) html += '<td></td>';
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let dayOfWeek = firstDay;
+    for (let date = 1; date <= daysInMonth; date++) {
+        const isToday = date === today;
+        html += `<td class="${isToday ? 'today' : ''}">${date}</td>`;
+        if (dayOfWeek === 7 && date !== daysInMonth) {
+            html += '</tr><tr>';
+            dayOfWeek = 0;
         }
+        dayOfWeek++;
+    }
+    while (dayOfWeek <= 7 && dayOfWeek !== 1) {
+        html += '<td></td>';
+        dayOfWeek++;
+    }
+    html += '</tr></tbody></table>';
+    calendar.innerHTML = html;
+}
+
+window.addEventListener('DOMContentLoaded', renderCalendar);
+function initParticles() {
+    // Минимум и максимум для разных размеров экрана
+    let minParticles = 10;
+    let maxParticles = 300;
+    let baseParticles = 150;
+    // Для очень маленьких экранов (например, < 600px по ширине) — ещё меньше
+    if (window.innerWidth < 600 || window.innerHeight < 400) {
+        minParticles = 8;
+        maxParticles = 30;
+        baseParticles = 15;
+    }
+    const particleCount = Math.min(Math.max(Math.floor((window.innerWidth * window.innerHeight) / (1920 * 1080) * baseParticles), minParticles), maxParticles);
+    tsParticles.load("particles-js", {
+        particles: {
+            number: { value: particleCount },
+            size: { value: 1.5 },
+            move: {
+                enable: true,
+                speed: 0.5,
+                direction: "none",
+                random: true,
+                straight: false,
+                out_mode: "bounce"
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#954aff",
+                opacity: 0.4,
+                width: 1
+            },
+            color: {
+                value: "#ffffff"
+            }
+        },
+        interactivity: {
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "grab"
+                }
+            }
+        }
+    });
+}
         
         function updateClock() {
             const now = new Date();
@@ -209,12 +298,74 @@ function initParticles() {
             }
         }
 
+        // --- Горячие клавиши: удобно менять сочетания ---
+        // Формат: { name: "описание", sequence: ["ctrl", "y"], url: "https://ya.ru" }
+        const hotkeys = [
+            { name: "Yandex", sequence: ["ctrl", "y"], url: "https://ya.ru" },
+            { name: "GitHub", sequence: ["ctrl", "g"], url: "https://github.com" },
+            { name: "Gmail", sequence: ["ctrl", "m"], url: "https://mail.google.com" },
+            { name: "Telegram", sequence: ["w", "e", "b", "t"], url: "https://web.telegram.org" },
+            { name: "WhatsApp", sequence: ["w", "e", "b", "w"], url: "https://web.whatsapp.com" }
+        ];
+
+        let keySeq = [];
+        let seqTimeout = null;
+        const seqMaxDelay = 1300; // мс между нажатиями
+
+        function matchHotkey(event) {
+            // Проверка ctrl-комбинаций
+            for (const hk of hotkeys) {
+                if (hk.sequence.length === 2 && hk.sequence[0] === "ctrl") {
+                    if (
+                        event.ctrlKey &&
+                        !event.altKey &&
+                        !event.shiftKey &&
+                        event.key.toLowerCase() === hk.sequence[1]
+                    ) {
+                        window.location.href = hk.url;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function processSequence(key) {
+            keySeq.push(key);
+            clearTimeout(seqTimeout);
+            seqTimeout = setTimeout(() => { keySeq = []; }, seqMaxDelay);
+
+            for (const hk of hotkeys) {
+                if (
+                    hk.sequence.length > 2 &&
+                    keySeq.length === hk.sequence.length &&
+                    hk.sequence.every((k, i) => keySeq[i] === k)
+                ) {
+                    window.location.href = hk.url;
+                    keySeq = [];
+                    clearTimeout(seqTimeout);
+                    break;
+                }
+            }
+            // Обрезаем лишнее (если набрали больше, чем самая длинная последовательность)
+            if (keySeq.length > 3) keySeq = [];
+        }
+
         document.addEventListener("keydown", function(event) {
-            if (event.ctrlKey && event.key === "y") window.location.href = "https://ya.ru";
-            if (event.ctrlKey && event.key === "g") window.location.href = "https://github.com";
-            if (event.ctrlKey && event.key === "m") window.location.href = "https://mail.google.com";
-        })
-        
+            if (matchHotkey(event)) {
+                keySeq = [];
+                return;
+            }
+            if (
+                event.key.length === 1 &&
+                !event.ctrlKey && !event.altKey && !event.shiftKey
+            ) {
+                processSequence(event.key.toLowerCase());
+            } else {
+                keySeq = [];
+            }
+        });
+                // благослови господь нейросети..
         
         function handleResize() {
             initParticles();
@@ -230,9 +381,77 @@ function initParticles() {
             fetchWeather();
             initParticles();
             
-            const audio = document.getElementById("bg-music");
-            audio.volume = 0.15;
-            audio.play();
-            
-            window.addEventListener('resize', handleResize);
-        });
+                const audio = document.getElementById("bg-music");
+
+                audio.volume = 0.15;
+
+                const playBtn = document.getElementById('music-play');
+                const muteBtn = document.getElementById('music-mute');
+                const timeSpan = document.getElementById('music-time');
+
+                const musicState = JSON.parse(localStorage.getItem('musicPlayerState') || '{}');
+                if (musicState.muted !== undefined) audio.muted = musicState.muted;
+                if (musicState.paused !== undefined) {
+                    if (!musicState.paused) {
+                        audio.play().catch(()=>{});
+                    } else {
+                        audio.pause();
+                    }
+                }
+                if (musicState.currentTime !== undefined) {
+                    audio.currentTime = musicState.currentTime;
+                }
+
+                function saveMusicState() {
+                    localStorage.setItem('musicPlayerState', JSON.stringify({
+                        muted: audio.muted,
+                        paused: audio.paused,
+                        currentTime: audio.currentTime
+                    }));
+                }
+
+                function formatTime(sec) {
+                    sec = Math.floor(sec);
+                    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+                    const s = (sec % 60).toString().padStart(2, '0');
+                    return `${m}:${s}`;
+                }
+
+                function updateMusicTime() {
+                    if (!audio.duration) {
+                        timeSpan.textContent = '00:00 / 00:00';
+                        return;
+                    }
+                    timeSpan.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+                }
+
+                audio.addEventListener('timeupdate', () => {
+                    updateMusicTime();
+                    saveMusicState();
+                });
+                audio.addEventListener('loadedmetadata', updateMusicTime);
+                setInterval(updateMusicTime, 1000);
+
+                playBtn.addEventListener('click', () => {
+                    if (audio.paused) {
+                        audio.play();
+                        playBtn.textContent = '⏸';
+                    } else {
+                        audio.pause();
+                        playBtn.textContent = '▶';
+                    }
+                    saveMusicState();
+                });
+
+                muteBtn.addEventListener('click', () => {
+                    audio.muted = !audio.muted;
+                    muteBtn.textContent = audio.muted ? '×' : '♬';
+                    saveMusicState();
+                });
+
+                playBtn.textContent = audio.paused ? '▶' : '⏸';
+                muteBtn.textContent = audio.muted ? '×' : '♬';
+                updateMusicTime();
+
+                window.addEventListener('resize', handleResize);
+            });

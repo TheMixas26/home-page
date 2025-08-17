@@ -10,12 +10,31 @@
 <body>
     <div class="greeting" id="greeting"></div>
     <div id="clock">00:00:00</div>
+    <div id="music-controls">
+        <span id="music-time">00:00 / 00:00</span>
+        <button id="music-play" title="Пауза/Воспроизвести">⏸</button>
+        <button id="music-mute" title="Включить/выключить звук">♬</button>
+    </div>
     
     <div class="search-container">
-        <form action="https://www.google.com/search" method="GET">
-            <input type="text" name="q" placeholder="Поиск в Google..." autofocus>
+        <form id="search-form" action="https://www.google.com/search" method="GET">
+            <input type="text" id="search-input" name="q" placeholder="Поиск в Google..." autofocus>
         </form>
     </div>
+    <script>
+    document.getElementById('search-form').addEventListener('submit', function(e) {
+        const input = document.getElementById('search-input');
+        const value = input.value.trim();
+        if (/^(https?:\/\/|ftp:\/\/|file:\/\/|www\.)/i.test(value)) {
+            e.preventDefault();
+            let url = value;
+            if (!/^https?:\/\//i.test(url) && !/^ftp:\/\//i.test(url) && !/^file:\/\//i.test(url)) {
+                url = 'http://' + url;
+            }
+            window.location.href = url;
+        }
+    });
+    </script>
     
     <div class="links">
         <a href="https://google.com"">Google</a>
@@ -25,10 +44,10 @@
     </div>
     
     <div class="links">
-        <a href="https://ya.ru" target="_blank">Yandex</a>
-        <a href="https://chat.openai.com" target="_blank">ChatGPT</a>
+        <a href="https://ya.ru">Yandex</a>
+        <a href="https://chat.openai.com">ChatGPT</a>
         <a href="obsidian://open?vault=MAIN1">Obsidian</a>
-        <a href="https://mail.google.com" target="_blank">Почта</a>
+        <a href="https://mail.google.com">Gmail</a>
     </div>
     <div id="quote-container">
         <div id="quote">Загрузка цитаты...</div>
@@ -44,5 +63,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@1/tsparticles.min.js"></script>
     <script src="script.js"></script>
+    <div id="calendar-container">
+        <div id="calendar"></div>
+    </div>
+    <!-- <div id="countdown-container">
+        <h2>Обратный отсчёт до события</h2>
+        <div id="countdown">Загрузка...</div>
+        <input type="datetime-local" id="new-deadline">
+        <button id="set-deadline">Установить дату</button>
+        <button id="reset-deadline">Сбросить таймер</button>
+    </div> -->
+</div>
 </body>
 </html>

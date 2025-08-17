@@ -1,3 +1,73 @@
+#music-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(34, 34, 34, 0.85);
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    padding: 10px 18px;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    user-select: none;
+}
+
+#music-controls button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+#music-controls button:hover {
+    background: #333;
+}
+#music-time {
+    min-width: 90px;
+    font-family: monospace;
+    font-size: 1rem;
+}
+#calendar-container {
+    position: fixed;
+    right: 60px;
+    bottom: 60px;
+    z-index: 1000;
+    background: #ffffff0c;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    padding: 10px;
+    min-width: 240px;
+}
+
+#calendar {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #9438a7;
+}
+
+#calendar table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#calendar th, #calendar td {
+    text-align: center;
+    padding: 4px;
+}
+#calendar th {
+    color: #d219b3;
+}
+#calendar td.today {
+    background: #d219b3;
+    color: #420b5c;
+    border-radius: 30%;
+}
+
 :root {
     --primary-color: #6200ea;
     --secondary-color: #954aff;
