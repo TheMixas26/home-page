@@ -189,7 +189,7 @@ function initParticles() {
             let greeting;
             
             if (hour >= 5 && hour < 12) greeting = morning[Math.floor(Math.random() * morning.length)];
-            else if (hour >= 12 && hour < 19) greeting = afternon[Math.floor(Math.random() * afternon.length)];
+            else if (hour >= 12 && hour < 19) greeting = afternoon[Math.floor(Math.random() * afternoon.length)];
             else if (hour >= 19 && hour < 23) greeting = evening[Math.floor(Math.random() * evening.length)];
             else greeting = night[Math.floor(Math.random() * night.length)];
             
