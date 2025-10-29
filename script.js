@@ -152,7 +152,7 @@ function initParticles() {
                 "Добрый день!",
                 "Ты уже пережил утро — теперь осталось пережить день.",
                 "Идеальное время для второго завтрака (или третьего кофе).",
-                "Доброго дня!.",
+                "Доброго дня!",
                 "Солнце в зените, а ты всё ещё в пижаме? Респект!",
                 "Час дня — идеальное время для первой полезной задачи. Или нет.",
                 "День — это просто долгий перерыв между утром и вечером.",
@@ -253,7 +253,9 @@ function initParticles() {
             { name: "GitHub", sequence: ["ctrl", "g"], url: "https://github.com" },
             { name: "Gmail", sequence: ["ctrl", "m"], url: "https://mail.google.com" },
             { name: "Telegram", sequence: ["w", "e", "b", "t"], url: "https://web.telegram.org" },
-            { name: "WhatsApp", sequence: ["w", "e", "b", "w"], url: "https://web.whatsapp.com" }
+            { name: "Telegram-RU", sequence: ["ц", "у", "и", "е"], url: "https://web.telegram.org" },
+            { name: "WhatsApp", sequence: ["w", "e", "b", "w"], url: "https://web.whatsapp.com" },
+            { name: "WhatsApp-RU", sequence: ["ц", "у", "и", "ц"], url: "https://web.whatsapp.com" },
         ];
 
         let keySeq = [];
