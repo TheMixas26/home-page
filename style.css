@@ -2,17 +2,23 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    background: rgba(34, 34, 34, 0.85);
+    background: rgba(31, 31, 31, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(149, 74, 255, 0.25);
     color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    padding: 10px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    padding: 10px 16px;
     z-index: 1100;
     display: flex;
     align-items: center;
     gap: 10px;
     font-size: 1.1rem;
     user-select: none;
+    transition: box-shadow 0.3s;
+}
+#music-controls:hover {
+    box-shadow: 0 4px 20px rgba(149, 74, 255, 0.25);
 }
 
 #music-controls button {
@@ -22,50 +28,91 @@
     font-size: 1.2rem;
     cursor: pointer;
     padding: 4px 8px;
-    border-radius: 5px;
-    transition: background 0.2s;
+    border-radius: 6px;
+    transition: background 0.2s, transform 0.15s;
 }
 #music-controls button:hover {
-    background: #333;
+    background: var(--primary-color);
+    transform: scale(1.08);
+}
+#music-controls button:active {
+    transform: scale(0.95);
 }
 #music-time {
     min-width: 90px;
     font-family: monospace;
     font-size: 1rem;
+    color: var(--text-secondary);
 }
 #calendar-container {
     position: fixed;
-    right: 60px;
-    bottom: 60px;
+    right: 20px;
+    bottom: 20px;
     z-index: 1000;
-    background: #ffffff0c;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    padding: 10px;
-    min-width: 240px;
+    background: rgba(31, 31, 31, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(149, 74, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    padding: 14px 16px;
+    min-width: 230px;
+    transition: box-shadow 0.3s;
+}
+
+#calendar-container:hover {
+    box-shadow: 0 4px 20px rgba(149, 74, 255, 0.25);
 }
 
 #calendar {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: #9438a7;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-color);
+}
+
+#calendar > div:first-child {
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: var(--text-color);
+    margin-bottom: 8px !important;
+    text-transform: capitalize;
 }
 
 #calendar table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 3px;
 }
+
 #calendar th, #calendar td {
     text-align: center;
-    padding: 4px;
+    padding: 5px 0;
+    border-radius: 6px;
 }
+
 #calendar th {
-    color: #d219b3;
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding-bottom: 6px;
 }
+
+#calendar td {
+    color: var(--text-secondary);
+    transition: background 0.2s, color 0.2s;
+}
+
+#calendar td:not(:empty):hover {
+    background: rgba(149, 74, 255, 0.15);
+    color: var(--text-color);
+    cursor: default;
+}
+
 #calendar td.today {
-    background: #d219b3;
-    color: #420b5c;
-    border-radius: 30%;
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(98, 0, 234, 0.6);
 }
 
 :root {
@@ -92,6 +139,27 @@ body {
     min-height: 100vh;
     height: auto;
     overflow-y: auto;
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--card-color);
+    border-radius: 10px;
+    border: 2px solid var(--bg-color);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
 }
 
 
@@ -164,26 +232,36 @@ body {
     max-width: 80%;
     color: var(--text-secondary);
     background: rgba(24, 24, 24, 0.8);
+    border: 1px solid rgba(149, 74, 255, 0.15);
     border-radius: 8px;
     padding: 12px 20px;
     z-index: 1;
     line-height: 1.5;
     backdrop-filter: blur(5px);
+    transition: border-color 0.3s;
+}
+#quote:hover {
+    border-color: rgba(149, 74, 255, 0.4);
 }
 
 #weather {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background: rgba(34, 34, 34, 0.8);
+    background: rgba(31, 31, 31, 0.85);
     color: white;
-    padding: 12px 16px;
-    border-radius: 10px;
+    padding: 12px 18px;
+    border-radius: 12px;
     font-size: 0.95rem;
     font-family: Arial, sans-serif;
     z-index: 1;
-    backdrop-filter: blur(5px);
-    border: 1px solid #333;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(149, 74, 255, 0.25);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    transition: box-shadow 0.3s;
+}
+#weather:hover {
+    box-shadow: 0 4px 20px rgba(149, 74, 255, 0.25);
 }
 
 #weather-icon {
@@ -262,4 +340,171 @@ body {
 
 #refresh-quote:active {
     transform: scale(0.95);
+}
+
+.hidden {
+    display: none !important;
+}
+
+#settings-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    background: rgba(31, 31, 31, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(149, 74, 255, 0.25);
+    color: #fff;
+    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+#settings-toggle:hover {
+    transform: rotate(45deg);
+    box-shadow: 0 4px 16px rgba(149, 74, 255, 0.3);
+}
+
+#settings-panel {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    z-index: 1100;
+    background: rgba(31, 31, 31, 0.92);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(149, 74, 255, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    padding: 16px 18px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+#settings-panel h3 {
+    margin: 0 0 4px 0;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+.settings-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+.settings-row.settings-col {
+    flex-direction: column;
+    align-items: flex-start;
+}
+.settings-row input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: var(--card-color);
+    color: var(--text-color);
+    font-size: 0.85rem;
+}
+.settings-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary-color);
+}
+#settings-status {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    min-height: 1em;
+}
+#settings-status.ok { color: #6ee7a0; }
+#settings-status.err { color: #ff6b6b; }
+#settings-save {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+#settings-save:hover {
+    background: var(--secondary-color);
+}
+
+#music-track-name {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+#tasks-container {
+    position: fixed;
+    left: 20px;
+    bottom: 90px;
+    z-index: 1000;
+    background: rgba(31, 31, 31, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(149, 74, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    padding: 14px 16px;
+    min-width: 230px;
+    max-width: 280px;
+    max-height: 260px;
+    overflow-y: auto;
+}
+#tasks-header {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+#tasks-count {
+    font-weight: normal;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+#tasks-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+#tasks-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: opacity 0.3s;
+}
+#tasks-list li input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+#tasks-list li .task-file {
+    display: block;
+    font-size: 0.7rem;
+    color: #666;
+}
+#tasks-list li.completing {
+    opacity: 0.4;
+    text-decoration: line-through;
+}
+#tasks-empty {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
 }

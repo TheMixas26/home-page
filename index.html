@@ -10,10 +10,35 @@
 <body>
     <div class="greeting" id="greeting"></div>
     <div id="clock">00:00:00</div>
+
+    <button id="settings-toggle" title="Настройки">⚙</button>
+    <div id="settings-panel" class="hidden">
+        <h3>Настройки</h3>
+        <label class="settings-row">
+            <input type="checkbox" id="local-mode-checkbox">
+            Локальный сервер (музыка + задачи Obsidian)
+        </label>
+        <label class="settings-row settings-col">
+            Адрес сервера
+            <input type="text" id="local-server-url" placeholder="http://localhost:5177">
+        </label>
+        <div id="settings-status"></div>
+        <button id="settings-save">Сохранить</button>
+    </div>
+
     <div id="music-controls">
+        <button id="music-prev" title="Предыдущий трек" class="hidden">⏮</button>
+        <span id="music-track-name" class="hidden"></span>
         <span id="music-time">00:00 / 00:00</span>
         <button id="music-play" title="Пауза/Воспроизвести">⏸</button>
         <button id="music-mute" title="Включить/выключить звук">♬</button>
+        <button id="music-next" title="Следующий трек" class="hidden">⏭</button>
+        <button id="music-shuffle" title="Перемешать заново" class="hidden">🔀</button>
+    </div>
+
+    <div id="tasks-container" class="hidden">
+        <div id="tasks-header">Задачи <span id="tasks-count"></span></div>
+        <ul id="tasks-list"></ul>
     </div>
     
     <div class="search-container">
