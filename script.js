@@ -244,6 +244,8 @@ function updateParticlesForWeather(weatherCode) {
             { name: "Telegram-RU", sequence: ["ц", "у", "и", "е"], url: "https://web.telegram.org" },
             { name: "WhatsApp", sequence: ["w", "e", "b", "w"], url: "https://web.whatsapp.com" },
             { name: "WhatsApp-RU", sequence: ["ц", "у", "и", "ц"], url: "https://web.whatsapp.com" },
+            { name: "Max", sequence: ["w", "e", "b", "m"], url: "https://web.max.ru/" },
+            { name: "Max-RU", sequence: ["ц", "у", "и", "ь"], url: "https://web.max.ru/" },
         ];
 
         let keySeq = [];
