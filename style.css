@@ -438,11 +438,27 @@ body {
 #music-track-name {
     max-width: 140px;
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 0.85rem;
     color: var(--text-secondary);
 }
+
+#music-track-name .marquee-inner {
+    display: inline-block;
+}
+
+#music-track-name.scrolling .marquee-inner {
+    animation: marquee-scroll var(--scroll-time, 8s) linear infinite alternate;
+}
+
+#music-track-name.paused .marquee-inner {
+    animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+    0%, 15%  { transform: translateX(0); }
+    85%, 100% { transform: translateX(var(--scroll-dist, 0px)); }
+}
+
 
 #tasks-container {
     position: fixed;

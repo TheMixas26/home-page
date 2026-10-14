@@ -506,30 +506,79 @@ async function initPlaylistMusic(serverUrl) {
     let order = (saved.order && saved.order.length === files.length) ? saved.order : shuffle(files.map((_, i) => i));
     let currentIndex = (typeof saved.currentIndex === 'number' && saved.currentIndex < order.length) ? saved.currentIndex : 0;
 
+    // Позиция для восстановления используется ровно один раз — при первой загрузке страницы
+    let resumeTime = (typeof saved.currentTime === 'number' && saved.currentIndex === currentIndex)
+        ? saved.currentTime
+        : 0;
+
+    const playBtn = document.getElementById('music-play');
+
     function saveState() {
         localStorage.setItem(PLAYLIST_STATE_KEY, JSON.stringify({
             order, currentIndex, currentTime: audio.currentTime
         }));
+    }
+       function setTrackTitle(name) {
+        trackNameEl.textContent = '';
+        const inner = document.createElement('span');
+        inner.className = 'marquee-inner';
+        inner.textContent = name;
+        trackNameEl.appendChild(inner);
+        trackNameEl.title = name; // полное название во всплывающей подсказке
+
+        trackNameEl.classList.remove('scrolling');
+        trackNameEl.classList.toggle('paused', audio.paused);
+
+        requestAnimationFrame(() => {
+            const overflow = inner.scrollWidth - trackNameEl.clientWidth;
+            if (overflow > 0) {
+                trackNameEl.style.setProperty('--scroll-dist', `-${overflow}px`);
+                // ~30px/сек + запас на паузы по краям
+                trackNameEl.style.setProperty('--scroll-time', `${Math.max(4, overflow / 30 * 1.4)}s`);
+                trackNameEl.classList.add('scrolling');
+            }
+        });
     }
 
     function loadTrack(index, autoplay) {
         currentIndex = index;
         const relPath = files[order[currentIndex]];
         audio.src = `${serverUrl.replace(/\/$/, '')}/api/music/stream?path=${encodeURIComponent(relPath)}`;
-        trackNameEl.textContent = trackDisplayName(relPath);
-        if (saved.currentTime && index === saved.currentIndex) {
-            audio.currentTime = saved.currentTime;
+        setTrackTitle(trackDisplayName(relPath));
+        if (resumeTime > 0) {
+            const t = resumeTime;
+            audio.addEventListener('loadedmetadata', () => { audio.currentTime = t; }, { once: true });
+            resumeTime = 0;
         }
+
         if (autoplay) audio.play().catch(() => {});
         saveState();
     }
 
-    function playNext() { loadTrack((currentIndex + 1) % order.length, !audio.paused); }
-    function playPrev() { loadTrack((currentIndex - 1 + order.length) % order.length, !audio.paused); }
+    function playNext(forceAutoplay = false) {
+        loadTrack((currentIndex + 1) % order.length, forceAutoplay || !audio.paused);
+    }
+    function playPrev() {
+        loadTrack((currentIndex - 1 + order.length) % order.length, !audio.paused);
+    }
 
-    audio.addEventListener('ended', playNext);
+    // Трек доиграл до конца — всегда сразу включаем следующий
+    audio.addEventListener('ended', () => playNext(true));
+
+    // Если файл не открылся — пропускаем его, но не уходим в бесконечный цикл
+    let errorStreak = 0;
+    audio.addEventListener('error', () => {
+        errorStreak++;
+        if (errorStreak < order.length) playNext(true);
+    });
+    audio.addEventListener('playing', () => { errorStreak = 0; });
+
+    // Иконка кнопки всегда соответствует реальному состоянию
+    audio.addEventListener('play', () => { playBtn.textContent = '⏸'; trackNameEl.classList.remove('paused'); });
+    audio.addEventListener('pause', () => { if (!audio.ended) playBtn.textContent = '▶'; trackNameEl.classList.add('paused');});
+
     prevBtn.addEventListener('click', playPrev);
-    nextBtn.addEventListener('click', playNext);
+    nextBtn.addEventListener('click', () => playNext());
     shuffleBtn.addEventListener('click', () => {
         order = shuffle(files.map((_, i) => i));
         loadTrack(0, !audio.paused);
@@ -540,7 +589,6 @@ async function initPlaylistMusic(serverUrl) {
     loadTrack(currentIndex, false);
     audio.addEventListener('timeupdate', saveState);
 }
-
 // ---------- Задачи из Obsidian ----------
 async function initTasks(serverUrl) {
     let tasks;
@@ -609,12 +657,16 @@ async function initTasks(serverUrl) {
 document.addEventListener('DOMContentLoaded', async () => {
     initSettingsPanel();
     const settings = getSettings();
-    if (!settings.localMode) return;
+    if (!settings.localMode) {
+        document.getElementById('bg-music').loop = true;
+        return;
+    }
 
     const serverUrl = settings.serverUrl || 'http://localhost:5177';
     const alive = await pingServer(serverUrl);
     if (!alive) {
         console.warn('Локальный режим включён, но сервер недоступен — остаёмся в обычном режиме.');
+        document.getElementById('bg-music').loop = true;
         return;
     }
 
